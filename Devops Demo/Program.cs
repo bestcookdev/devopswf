@@ -15,17 +15,15 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureADB2C"));
 
-IdentityModelEventSource.ShowPII = true;
-
 builder.Services.AddAuthorization(options =>
-{   
+{
+    // By default, all incoming requests will be authorized according to 
+    // the default policy
     options.FallbackPolicy = options.DefaultPolicy;
 });
-
 builder.Services.AddRazorPages(options => {
     options.Conventions.AllowAnonymousToPage("/Index");
 })
